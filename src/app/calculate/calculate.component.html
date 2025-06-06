@@ -1,0 +1,30 @@
+<mat-card style="margin: 15px;">
+    <mat-card-title style="text-align: center; margin-top: 15px;">คำนวณเงินเดือน</mat-card-title>
+    <mat-card-actions fxLayoutAlign="end">
+        <button mat-raised-button color="warn" (click)="resetForm()">Reset</button>
+    </mat-card-actions>
+    <mat-card-content fxLayout="column" fxLayoutGap="10px" style="margin-top: 15px;">
+      <div *ngFor="let item of items; let i = index" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="15px">
+        <div fxLayout="column" fxFlex="100%">
+            <div fxLayout="row" fxFlex="100%">
+                <label fxFlex="50">{{ item.label }}</label>
+                <label fxFlex="50" style="text-align: right;">{{ item.amount | currency:'THB' }}</label>
+            </div>
+            <mat-form-field fxFlex="50" appearance="fill">
+                <mat-label>กรอกข้อมูล</mat-label>
+                <input matInput type="number" [(ngModel)]="item.value" (input)="calculateRow(i)" />
+            </mat-form-field>
+            <span 
+                fxFlex="30" 
+                style="text-align: right;" 
+                [ngStyle]="{ color: item.action === 'D' ? 'red' : 'green' }">
+                {{ item.result | currency:'THB' }}
+            </span>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="summary" style="background-color: #FFF9C4; border-radius: 15px; padding: 10px 20px;">
+        <strong>Total:</strong>
+        <strong>{{ total | currency:'THB' }}</strong>
+      </div>
+    </mat-card-content>
+</mat-card>
