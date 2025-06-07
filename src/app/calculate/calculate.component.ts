@@ -37,6 +37,7 @@ export class CalculateComponent {
     { label: 'ลาพักร้อน AL', amount: 400, value: null, result: 0, action: 'A' },
     { label: 'ลาป่วย SL', amount: 400, value: null, result: 0, action: 'A' },
     { label: 'ลากิจพิเศษ PL', amount: 400, value: null, result: 0, action: 'A' },
+    { label: 'ประกันสังคม', amount: 440, value: null, result: 0, action: 'D' },
   ];
 
   total = 0;
