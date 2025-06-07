@@ -34,9 +34,9 @@ export class CalculateComponent {
     { label: 'ค่าเช่าบ้าน', amount: 100, value: null, result: 0, action: 'A' },
     { label: 'เงินพิเศษ', amount: 12.50, value: null, result: 0, action: 'A' },
     { label: 'หยุดประเพณี PH', amount: 400, value: null, result: 0, action: 'A' },
-    { label: 'พักร้อน AL', amount: 400, value: null, result: 0, action: 'D' },
-    { label: 'ลาป่วย SL', amount: 400, value: null, result: 0, action: 'D' },
-    { label: 'กิจพิเศษ PL', amount: 400, value: null, result: 0, action: 'D' },
+    { label: 'ลาพักร้อน AL', amount: 400, value: null, result: 0, action: 'A' },
+    { label: 'ลาป่วย SL', amount: 400, value: null, result: 0, action: 'A' },
+    { label: 'ลากิจพิเศษ PL', amount: 400, value: null, result: 0, action: 'A' },
   ];
 
   total = 0;
@@ -44,6 +44,19 @@ export class CalculateComponent {
   calculateRow(index: number): void {
     const item = this.items[index];
     item.result = (item.value ?? 0) * item.amount;
+  
+    // ตรวจสอบและปรับปรุงค่าเช่าบ้าน
+    const rentItem = this.items.find(i => i.label === 'ค่าเช่าบ้าน');
+    if (rentItem) {
+      // คำนวณผลรวมของ value * amount สำหรับรายการที่ขึ้นต้นด้วย "ลา"
+      const leaveDeduction = this.items
+        .filter(i => i.label.startsWith('ลา') && (i.value ?? 0) > 0)
+        .reduce((sum, i) => sum + (i.value ?? 0) * rentItem.amount, 0);
+  
+      // ปรับ result ของค่าเช่าบ้าน
+      rentItem.result = (rentItem.value ?? 0) * rentItem.amount - leaveDeduction;
+    }
+  
     this.calculateTotal();
   }
 
